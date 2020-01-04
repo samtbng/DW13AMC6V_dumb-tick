@@ -170,6 +170,7 @@ class DetailEvent extends Component {
     }
 
     buyHandle = () => {
+        if(localStorage.getItem('isLogin')){
         const { counter,price } = this.state
         console.log(counter)
         const { id } = this.props.eventDetail.data
@@ -189,9 +190,12 @@ class DetailEvent extends Component {
                 openSnackbar:true,
                 message: "Pemesanan berhasil, silakan melakukan pembayaran pada halaman My Payments"
             })
-            window.location.href = `/payment/${data.id}`
+            window.location = `/payment/${data.id}`
             console.log(res)
         }).catch(err => console.log(err))
+    } else {
+        alert("Anda harus login terlebih dahulu")
+    }
     }
 
     render() {
@@ -199,10 +203,10 @@ class DetailEvent extends Component {
         const { counter,price } = this.state
         const { isLoading, data } = this.props.eventDetail
         if (isLoading) { return null } else {
-            const startedTime = moment(data.startTime).format("HH:mm")
-            const endTime = moment(data.endTime).format("HH:mm")
-            const startedDay = moment(data.startTime).format("DD MMMM")
-            const endDay = moment(data.endTime).format("DD MMMM")
+            const startedTime = moment(data.startTime).utc(false).format("HH:mm")
+            const endTime = moment(data.endTime).utc(false).format("HH:mm")
+            const startedDay = moment(data.startTime).utc(false).format("DD MMMM")
+            const endDay = moment(data.endTime).utc(false).format("DD MMMM")
 
             return (
                 <div className={classes.root}>

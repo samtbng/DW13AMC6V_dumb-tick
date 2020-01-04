@@ -105,6 +105,13 @@ class ProfilePage extends Component {
         })
     }
 
+    handleCancel =() => {
+        this.setState({
+            isEdit:false,
+            isUser:true
+        })
+    }
+
     
     handleCloseSnackbar = () => {
         this.setState({ openSnackbar: false })
@@ -116,13 +123,13 @@ class ProfilePage extends Component {
     }
 
 
-    handleSubmit = () => {
+    handleSubmit = (event) => {
+        event.preventDefault()
         const {id} = this.props.login.data
         const {
             fullname,
             phone,
             birthday,
-            email
         } = this.state
         var config = {
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
@@ -132,12 +139,13 @@ class ProfilePage extends Component {
             fullname:fullname,
             phone:phone,
             birthday:birthday,
-            email:email
         }, config).then(res => {
+            console.log(res)
             this.setState({
                 openSnackbar:true,
                 message:"Berhasil update profile"
             })
+            window.location.reload(false)
         }).catch(err=>{
             console.log(err)
             this.setState({
@@ -152,7 +160,7 @@ class ProfilePage extends Component {
         const { isLoading,data } = this.props.profile
         if(isLoading){
             return(
-                <div><Typography>PLEASE WAIT...</Typography></div>
+                <div><Typography></Typography></div>
             )
         } else {
             const date = moment(new Date(data.birthday)).format("DD-MM-YYYY")
@@ -210,13 +218,14 @@ class ProfilePage extends Component {
                                         value={this.state.email}
                                         onChange={this.handleChange('email')}
                                         fullWidth
-                                        required={true}
+                                        disabled
                                     />
                                 </FormControl>
                                 
                             </div>
                             <div>
                                 <Button className={classes.button} type="submit">Save Edit</Button>
+                                <Button className={classes.button} onClick={this.handleCancel}>Cancel</Button>
                             </div>
                         </form>
                             :
@@ -253,7 +262,7 @@ class ProfilePage extends Component {
                     </div>
                 </div>
                 <div>
-                    <Typography variant="h5" style={{ fontWeight: "bold", marginRight: "15px" }}>
+                    <Typography variant="h5" style={{ fontWeight: "bold", marginBottom: "15px" }}>
                         Favorite
                     </Typography>
                     <EventLiked data={data.likes} />

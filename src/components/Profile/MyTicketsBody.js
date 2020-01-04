@@ -54,7 +54,7 @@ class MyTicketsBody extends Component {
         // const infodate = new Date(event.startTime)
         // const date = moment(infodate).format("DD MMMM YYYY")
         if (isLoading) {
-            return <div><Typography>PLEASE WAIT</Typography></div>
+            return <div></div>
         } else {
             console.log(this.props)
             return (

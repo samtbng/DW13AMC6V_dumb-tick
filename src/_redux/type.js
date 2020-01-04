@@ -38,5 +38,5 @@ export const LOGIN = 'LOGIN'
 export const LOGIN_FULFILLED = 'LOGIN_FULFILLED'
 export const LOGIN_REJECTED = 'LOGIN_REJECTED'
 
-// export const API = 'https://dumbtick-restapi.herokuapp.com/api/v1'
-export const API = 'http://localhost:5000/api/v1'
+export const API = 'https://dumbtick-restapi.herokuapp.com/api/v1'
+// export const API = 'http://localhost:5000/api/v1'

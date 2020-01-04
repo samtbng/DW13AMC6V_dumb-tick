@@ -98,6 +98,19 @@ class Register extends Component {
             phone:this.state.phone,
             avatar:this.state.fullname
         }).then(res => {
+            if(res.error){
+                alert(res.error)
+                this.setState({
+                    username:'',
+                    email: '',
+                    password: '',
+                    fullname: '',
+                    birthday:'',
+                    phone:'',
+                    avatar:''
+                })
+
+            }
             localStorage.setItem('id', res.data.id)
             localStorage.setItem('token', res.data.token)
             localStorage.setItem('isLogin', true)

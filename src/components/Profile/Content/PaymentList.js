@@ -15,9 +15,9 @@ import axios from 'axios';
 import CurrencyFormat from 'react-currency-format';
 
 
-
 import {API} from '../../../_redux/type';
-import { getOrdersPending } from '../../../_actions/orders'
+
+const QRCode = require('qrcode.react');
 
 const useStyles = (theme => ({
     root: {
@@ -74,23 +74,19 @@ class PaymentList extends Component {
     }
 
     handleConfirmed = () => {
-        const { id, userId } = this.props
+        const { id } = this.props
         const { attachment } = this.state
         var config = {
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
         }
         axios.put(`${API}/order/${id}`, { attachment: attachment }, config)
             .then(res => {
-                console.log(res)
                 this.setState({
                     openSnackbar:true,
                     message:"pembayaran berhasil, mohon menunggu pembayaran anda terkonfirmasi"
                 })
-                this.props.dispatch(getOrdersPending(userId))
-
+                window.location.reload(false)
             }).catch(err => { console.log(err) })
-            
-        window.location.reload(false)
     }
 
 
@@ -114,9 +110,10 @@ class PaymentList extends Component {
             price,
             totalPrice,
             startTime,
-            background
+            background,
+            status,
+            attachment
         } = this.props
-
         const infodate = new Date(startTime)
         const date = moment(infodate).format("ddd, DD MMM YYYY [at] HH:mm")
         return (
@@ -156,13 +153,7 @@ class PaymentList extends Component {
                                     </Typography>
                                 </div>
                                 <div style={{ flexDirection: "flex-end" }}>
-                                    <img
-                                        className={classes.barcode}
-                                        variant="square"
-                                        alt="barcode"
-                                        title="barcode"
-                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
-                                    />
+                                    <QRCode value={title}/>
                                 </div>
                             </div>
                         </div>
@@ -189,21 +180,35 @@ class PaymentList extends Component {
                     <Divider />
                     <div style={{ padding: "30px 20px 30px 20px" }}>
                         <div className={classes.row} >
-                            <div className={classes.column} >
-                                <Typography className={classes.subTitle}>
-                                    Prove of Payment
-                                </Typography>
-                                <TextField
-                                    id="standard-basic"
-                                    label="attachment"
-                                    value={this.state.attachment}
-                                    onChange={this.onChangeAttachment}
-                                />
-                            </div>
+                            {status==="pending" ?
+                                <div className={classes.column} >
+                                    <Typography className={classes.subTitle}>
+                                        Prove of Payment
+                                    </Typography>
+                                    <TextField
+                                        id="standard-basic"
+                                        label="attachment"
+                                        value={this.state.attachment}
+                                        onChange={this.onChangeAttachment}
+                                    />
+                                </div>
+                                    :
+                                    <div className={classes.column} >
+                                    <Typography className={classes.subTitle}>
+                                        {attachment}
+                                    </Typography>
+                                </div>
+                            }    
                             <div className={classes.row} style={{ justifyContent: "flex-end" }}>
-                                <Button className={classes.button} onClick={this.handleConfirmed}>
-                                    Confirm
-                                </Button>
+                                {status==="pending" ? 
+                                    <Button className={classes.button} onClick={this.handleConfirmed}>
+                                        Confirm
+                                    </Button>
+                                        :
+                                    <Button disabled>
+                                        Pending
+                                    </Button>
+                                }
                             </div>
                         </div>
                     </div>

@@ -57,6 +57,8 @@ class PaymentsBody extends Component {
                                     totalPrice={item.price}
                                     startTime={item.event.startTime}
                                     background={item.event.category.image}
+                                    status={item.status}
+                                    attachment={item.attachment}
                                 />
                         )
                         :
@@ -66,7 +68,7 @@ class PaymentsBody extends Component {
                 </div>
             );
         } else {
-            return <div><Typography style={{ textAlign: "center" }}>PLEASE WAIT...</Typography></div>
+            return <div><Typography></Typography></div>
         }
     }
 }

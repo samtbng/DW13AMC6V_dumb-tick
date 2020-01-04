@@ -27,6 +27,7 @@ const useStyles = (theme => ({
     title: {
         fontWeight: "bold",
         color: 'red',
+        marginBottom:"20px"
     },
     content: {
         margin: "20px 0 20px 0",
@@ -57,12 +58,14 @@ class EventPerCategory extends Component {
         const { isLoading, data } = this.props.eventCategory
         if (isLoading === false) {
             const filteredEvents = data.events.filter(item => {
-                const filterStartTime = moment(new Date(item.startTime)).format("DD MMMM YYYY")
-                const searchStartTime = moment(new Date(this.state.date)).format("DD MMMM YYYY")
+                const filterStartTime = moment(new Date(item.startTime)).utc(false).format("DD MMMM YYYY")
+                const searchStartTime = moment(new Date(this.state.date)).utc(false).format("DD MMMM YYYY")
+                
+                console.log(filterStartTime)
+                console.log(searchStartTime)
                 return (filterStartTime === searchStartTime)
             })
 
-            console.log(this.state.date)
             return (
                 <div className={classes.root}>
                     <Container>
@@ -72,7 +75,7 @@ class EventPerCategory extends Component {
                                     {data.name}
                                 </Typography>
                                 <div>
-                                    <Typography>
+                                    <Typography variant="h6">
                                         Sort By:
                             </Typography>
                                     <TextField
@@ -99,7 +102,7 @@ class EventPerCategory extends Component {
             );
         } else {
             return (
-                <div><Typography>PLEASE WAIT...</Typography></div>
+                <div><Typography></Typography></div>
             )
         }
     }

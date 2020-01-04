@@ -12,7 +12,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import PersonIcon from '@material-ui/icons/Person';
 import Input from '@material-ui/core/Input';
-import PropTypes from 'prop-types';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 import axios from 'axios';
 import {API} from '../_redux/type';
 
@@ -39,7 +40,7 @@ const styles = theme => ({
     },
     middleUpperText: {
         fontSize: "12px",
-    }
+    },
 });
 class Register extends Component {
     constructor() {
@@ -48,7 +49,9 @@ class Register extends Component {
             openLogin: false,
             password: '',
             email: '',
-            showPassword: false
+            showPassword: false,
+            openSnackbar:false,
+            message:false
         }
     }
     handleClickShowPassword = () => {
@@ -72,8 +75,8 @@ class Register extends Component {
         this.setState({ password: event.target.value })
     }
 
-    handleLogin = () => {
-        alert("test")
+    handleLogin = (event) => {
+        event.preventDefault();
         axios.post(`${API}/login`,
             {
                 email: this.state.email,
@@ -81,13 +84,18 @@ class Register extends Component {
             }
         ).then(res => {
             if (res.data.login) {
+                console.log(res)
+                this.setState({
+                    openSnackbar:true,
+                    message:`Selamat datang, ${res.data.fullname}`
+                })
                 localStorage.setItem('token', res.data.token)
                 localStorage.setItem('id', res.data.id)
                 localStorage.setItem('isLogin', true)
                 console.log("ini token : " + localStorage.token)
-                // window.location.reload(false);
+                window.location.href = "/";
             } else {
-                window.location.reload(false)
+                
                 alert("EMAIL/PASSWORD SALAH")
                 this.setState({ email: '' })
                 this.setState({ password: '' })
@@ -171,15 +179,30 @@ class Register extends Component {
                         </div>
 
                     </div>
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left'
+                        }}
+                        open={this.state.openSnackbar}
+                        autoHideDuration={1000}
+                        message={this.state.message}
+                        action={[
+                        <IconButton
+                            key="close"
+                            aria-label="close"
+                            color="inherit"
+                            className={classes.close}
+                            onClick={this.handleCloseSnackbar}
+                        >
+                            <CloseIcon />
+                        </IconButton>]}
+                    />
 
                 </Dialog >
             </div >
         );
     }
 }
-
-Register.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(Register);

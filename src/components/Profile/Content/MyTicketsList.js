@@ -4,6 +4,9 @@ import { Typography, Paper } from '@material-ui/core';
 import moment from 'moment'
 import CurrencyFormat from 'react-currency-format';
 
+
+const QRCode = require('qrcode.react');
+
 const useStyles = (theme => ({
     root: {
         flexGrow: 1,
@@ -52,7 +55,7 @@ class MyTicketsList extends Component {
         } = this.props
         console.log(background)
         const infodate = new Date(startTime)
-        const date = moment(infodate).format("ddd, DD MMM YYYY [at] HH:mm")
+        const date = moment(infodate).utc(false).format("ddd, DD MMM YYYY [at] HH:mm")
         return (
             <div>
                 <Paper style={{ padding: "50px 100px 50px 100px" }}>
@@ -90,13 +93,7 @@ class MyTicketsList extends Component {
                                     </Typography>
                                 </div>
                                 <div style={{ flexDirection: "flex-end" }}>
-                                    <img
-                                        className={classes.barcode}
-                                        variant="square"
-                                        alt="barcode"
-                                        title="barcode"
-                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
-                                    />
+                                <QRCode value={title}/>
                                 </div>
                             </div>
                         </div>

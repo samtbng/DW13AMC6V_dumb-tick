@@ -104,7 +104,6 @@ class Category extends Component {
             return <div>
 
                 <Typography>
-                    PLEASE WAIT...
                     </Typography>
             </div>
         } else {

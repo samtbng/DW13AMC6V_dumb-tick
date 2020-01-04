@@ -9,7 +9,7 @@ class EventList extends Component {
         const { data,login } = this.props
         return (
             <Grid container spacing={2}>
-                {data.map(items => 
+                {data && data.map(items => 
                     <EventCard
                     login={login.data}
                     id={items.id}

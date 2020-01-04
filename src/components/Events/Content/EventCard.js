@@ -151,7 +151,7 @@ class EventCard extends Component {
 
     render() {
         const { classes, id, title, img, description, startTime, price } = this.props
-        const date = moment(new Date(startTime)).format("DD MMMM")
+        const date = moment(new Date(startTime)).utc(false).format("DD MMMM")
         return (
             <Grid item xs={12} sm={4}>
                 <Paper>
