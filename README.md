@@ -12,14 +12,15 @@ Aplikasi ini masih tahap test , dengan kata lain masih terdapat fitur yang belum
 ## Fitur 
 * Terdapat fitur search dan sort
 * Sudah tervalidasi setiap aksi dari aplikasi
+* Terdapat fitur favorite atau menyukai sebuah event
 
 ## Stack Teknologi yang digunakan
-- [React Native](https://facebook.github.io/react-native/) - Front-end
+- [React JS](https://reactjs.org/) - Front-end
 - [Express JS](https://expressjs.com) - Back-end
 - [MySQL](https://www.mysql.com) - Database
 
 ## Author
-**Samuel Partogi Setiawan Lumban Tobing** - [exneval](https://github.com/samtbng)
+**Samuel Partogi Setiawan Lumban Tobing** - [samtbng](https://github.com/samtbng)
 
 ## Kontak
 * WA/TELEGRAM: +62 878 7867 7084
